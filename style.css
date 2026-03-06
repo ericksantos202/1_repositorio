@@ -1,0 +1,121 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* Garante que a borda e o padding não aumentem*/
+}
+
+/*ESTILOS GERAIS DA PAGINA*/
+body {
+    font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+    background-color: aliceblue;
+    color: black;
+    line-height: 1.5;
+}
+
+/*Cabeçalho HEADER*/
+
+header {
+    background-color: rgb(181, 184, 30);
+    color: rgb(0, 0, 0);
+    padding: 30px 20px;
+    box-shadow: 0px 4px 8px rgba(red, green, blue, alpha);
+}
+
+header h1 {
+    margin-bottom: 15px;
+    font-size: 2.5rem;
+    letter-spacing: 2px;
+}
+
+/*NAVEGAÇÃO*/
+
+nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+nav a {
+    color: rgb(248, 248, 248);
+    text-decoration: none;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: all 0.3 ease-in-out;
+}
+
+nav a:hover {
+    background-color: rgb(247, 242, 1);
+    color: rgb(28, 14, 212);
+    transform: translateY(-10px);
+}
+
+/*CONTEUDO PRINCIPAL*/
+
+main {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+/* ARTIGOS E SECOES*/
+
+article, section {
+    background-color: #c9c6c6;
+    padding: 25px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+}
+
+article h2, section h3 {
+    color: rgb(0, 0, 0);
+    margin-bottom: 15px;
+}
+
+article img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #5c3535;
+}
+
+/*LISTAS E OUTRAS NOTICIAS*/
+section ul{
+    list-style: none;
+}
+
+section ul li{
+    padding: 12px 0;
+    border-bottom: 1px solid #5c5656;
+}
+
+section ul li:last-child{
+    border-bottom: none;
+}
+
+/*RODAPE*/
+footer{
+    background-color: rgb(149, 151, 34);
+    color: rgb(255, 255, 255);
+    text-align: center;
+    padding: 30px 20px;
+    margin-top: 50px;
+}
+
+footer h1{
+    border: none;
+    text-decoration: none;
+    margin-bottom: 20px;
+}
+
+footer a{
+    color: rgb(253, 182, 3);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+footer a:hover{
+    text-decoration: underline;
+}
