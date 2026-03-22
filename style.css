@@ -119,3 +119,27 @@ footer a{
 footer a:hover{
     text-decoration: underline;
 }
+
+/*ADD ESTILIZAÇÃO COESA*/
+/* BOTÃO DE CONTATO */
+.contact-nav {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: rgb(253, 182, 3);
+    color: black;
+    border-radius: 6px;
+    transition: 0.3s;
+}
+
+.contact-nav:hover {
+    background-color: rgb(255, 200, 50);
+}
+
+.contact-nav:active {
+    transform: scale(0.95);
+}
+
+.contact-nav:focus {
+    outline: 2px solid white;
+}
