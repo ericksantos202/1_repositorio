@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Controle de Devoluções</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <h1>Registro de Devolução de Livros</h1>
+
+  <!-- CONTADORES -->
+  <h3 id="total">Total de livros processados: 0</h3>
+  <h3 id="multa">Livros com multa: 0</h3>
+
+  <!-- ENTRADA DE DADOS -->
+  <div>
+    <input type="text" id="nomeLivro" placeholder="Nome do livro">
+    <input type="number" id="diasAtraso" placeholder="Dias de atraso">
+    <button id="btnRegistrar">Registrar Devolução</button>
+  </div>
+
+  <!-- LISTA -->
+  <table>
+    <thead>
+      <tr>
+        <th>Livro</th>
+        <th>Dias de atraso</th>
+        <th>Status</th>
+        <th>Ação</th>
+      </tr>
+    </thead>
+    <tbody id="listaLivros"></tbody>
+  </table>
+
+  <script src="script.js"></script>
+
+</body>
+</html>
