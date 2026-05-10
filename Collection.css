@@ -4,13 +4,41 @@
     box-sizing: border-box;
 }
 
+#controls {
+  position: sticky;
+  top: 10px;
+
+  z-index: 100;
+
+  background: rgba(11, 11, 26, 0.85);
+  backdrop-filter: blur(10px);
+
+  padding: 15px;
+  border-radius: 10px;
+
+  width: 80%;
+  max-width: 900px;
+
+  margin: 20px auto;
+}
+
+#cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+
+  padding-top: 10px;
+}
+
 body {
     font-family: sans-serif;
     display: flex;
     min-height: 100vh;
     flex-direction: column;
     align-items: center;
-    background: linear-gradient(to bottom, #5e9cfa, #824ec5);
+    background: #0b0b1a;
+    color: white;
 }
 
 header {
@@ -19,13 +47,122 @@ header {
     color: white;
     font-size: 40px;
     letter-spacing: 3px;
-    text-shadow: 0px 0px 50px rgb(0, 255, 255);
+    text-shadow: 0px 0px 50px rgb(255, 0, 225);
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 section {
     padding: 50px;
     font-family: 'Orbitron';
     color: white;
+}
+
+#cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.Card {
+  position: relative;
+  background: #1a0f2e;
+  border-radius: 12px;
+  padding: 10px;
+  transition: 0.3s;
+}
+
+.Card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.badge {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  font-size: 20px;
+}
+
+.favorito {
+  border: 2px solid #f5c542 !important;
+  box-shadow: 0 0 12px #f5c542, 0 0 25px rgba(245, 197, 66, 0.5);
+}
+
+.troca {
+  border: 2px solid #4dd0e1 !important;
+  box-shadow: 0 0 12px #4dd0e1, 0 0 25px rgba(77, 208, 225, 0.5);
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -320px; /* agora começa fora da tela à esquerda */
+  width: 300px;
+  height: 100vh;
+  background: #1e1e2f;
+  color: white;
+  padding: 20px;
+  transition: 0.3s;
+  z-index: 1000;
+  box-shadow: 5px 0 20px rgba(0,0,0,0.5);
+}
+
+.sidebar label {
+  display: block;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.sidebar input,
+.sidebar select {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  border: none;
+}
+
+.sidebar button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  cursor: pointer;
+  border: none;
+  border-radius: 6px;
+}
+
+#addCard {
+  background: #4cafef;
+  color: white;
+}
+
+#closeSidebar {
+  background: #ff4d4d;
+  color: white;
+}
+
+.sidebar.open {
+  left: 0; /* entra pela esquerda */
+}
+
+.checkbox {
+  background: rgba(255,255,255,0.05);
+  padding: 8px;
+  border-radius: 6px;
+}
+
+.checkbox input {
+  width: auto;
+  margin: 0;
 }
 
 footer {
