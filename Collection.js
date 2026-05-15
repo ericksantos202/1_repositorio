@@ -17,43 +17,43 @@ let filtroAtual = "todos";
 const cartasBase = [
   {
     nome: "Relâmpago",
-    imagem: "https://i.pinimg.com/1200x/11/39/24/1139246f92257a9e1dd6afd9170d1475.jpg",
+    imagem: "https://placehold.co/300x200",
     raridade: "Comum",
     repetido: false
   },
   {
     nome: "Dragão Guardião",
-    imagem: "https://i.pinimg.com/736x/a9/80/7c/a9807c7b0f17e9a519a43d935de819aa.jpg",
+    imagem: "https://placehold.co/300x200",
     raridade: "Comum",
     repetido: false
   },
   {
     nome: "Cometa Rubro",
-    imagem: "https://i.pinimg.com/736x/f9/cf/c3/f9cfc338d7ce5e0ac19d2a3d0daaa517.jpg",
+    imagem: "https://placehold.co/300x200",
     raridade: "Raro",
     repetido: false
   },
   {
     nome: "Espírito da Realeza",
-    imagem: "https://i.pinimg.com/736x/ad/95/6e/ad956e266c8bbab94bb62f716b28bb2c.jpg",
+    imagem: "https://placehold.co/300x200",
     raridade: "Raro",
     repetido: false
   },
   {
     nome: "Feixe Estelar",
-    imagem: "https://i.pinimg.com/736x/a7/d7/d9/a7d7d990b1ed177f9d416e36336141ec.jpg",
+    imagem: "https://placehold.co/300x200",
     raridade: "Lendária",
     repetido: false
   },
   {
     nome: "Katana do Oriente",
-    imagem: "https://i.pinimg.com/736x/0c/da/66/0cda66078b25d9a3eacf0ae2a1e71e5d.jpg",
+    imagem: "https://placehold.co/300x200",
     raridade: "Lendária",
     repetido: false
   },
 ];
 
-// ================= LOCALSTORAGE =================
+// ================= SALVAR E CARREGAR =================
 function salvar() {
   localStorage.setItem("colecao", JSON.stringify(colecao));
 }
@@ -90,6 +90,10 @@ function criarCard(card) {
 
   div.classList.add("Card");
   div.classList.add(normalizarRaridade(card.raridade));
+
+  if (card.nova) {
+  div.classList.add("invocando");
+  }
 
   if (card.favorito) div.classList.add("favorito");
   if (card.troca) div.classList.add("troca");
@@ -136,25 +140,44 @@ function criarCard(card) {
     renderizar();
   });
 
-  // 🧨 DESTRUIR (REMOVE PERMANENTE)
+  // DESTRUIR (REMOVE PERMANENTE)
   btnDel.addEventListener("click", () => {
+
+  div.classList.add("destruindo");
+
+  setTimeout(() => {
+
     colecao = colecao.filter(c => c.id !== card.id);
+
     salvar();
     renderizar();
-  });
+
+  }, 400);
+
+});
 
   div.appendChild(badge);
   div.appendChild(img);
   div.appendChild(titulo);
   div.appendChild(raridade);
-  div.appendChild(btnFav);
-  div.appendChild(btnTrade);
-  div.appendChild(btnDel);
+  const actionsTop = document.createElement("div");
+  actionsTop.classList.add("actions-top");
+
+  const actionsBottom = document.createElement("div");
+  actionsBottom.classList.add("actions-bottom");
+
+  actionsTop.appendChild(btnFav);
+  actionsTop.appendChild(btnTrade);
+
+  actionsBottom.appendChild(btnDel);
+
+  div.appendChild(actionsTop);
+  div.appendChild(actionsBottom);
 
   container.appendChild(div);
 }
 
-// ================= RENDER =================
+// ================= RENDERIZAR =================
 function renderizar() {
   container.innerHTML = "";
 
@@ -193,11 +216,14 @@ btnAdd.addEventListener("click", () => {
     raridade,
     repetido,
     favorito: false,
-    troca: false
+    troca: false,
+    nova: true
   });
 
   salvar();
   renderizar();
+
+  colecao.forEach(c => c.nova = false);
 
   document.getElementById("nome").value = "";
   document.getElementById("imagem").value = "";
