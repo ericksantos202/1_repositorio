@@ -191,6 +191,39 @@ function renderizar() {
     lista = lista.filter(c => c.troca);
   }
 
+  if (filtroAtual === "comum") {
+  lista = lista.filter(c =>
+    normalizarRaridade(c.raridade) === "comum"
+  );
+  }
+
+  if (filtroAtual === "rara") {
+  lista = lista.filter(c =>
+    normalizarRaridade(c.raridade) === "raro"
+  );
+  }
+
+  if (filtroAtual === "lendaria") {
+  lista = lista.filter(c =>
+    normalizarRaridade(c.raridade) === "lendaria"
+  );
+  }
+
+  document.getElementById("filtroComum")?.addEventListener("click", () => {
+  filtroAtual = "comum";
+  renderizar();
+  });
+
+  document.getElementById("filtroRara")?.addEventListener("click", () => {
+  filtroAtual = "rara";
+  renderizar();
+  });
+
+  document.getElementById("filtroLendaria")?.addEventListener("click", () => {
+  filtroAtual = "lendaria";
+  renderizar();
+  });
+
   const busca = search.value?.toLowerCase() || "";
 
   lista
