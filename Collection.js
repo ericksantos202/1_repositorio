@@ -17,37 +17,37 @@ let filtroAtual = "todos";
 const cartasBase = [
   {
     nome: "Relâmpago",
-    imagem: "https://placehold.co/300x200",
+    imagem: "https://i.pinimg.com/736x/48/9b/b7/489bb7f45a4a001843bf258427cc532e.jpg",
     raridade: "Comum",
     repetido: false
   },
   {
     nome: "Dragão Guardião",
-    imagem: "https://placehold.co/300x200",
+    imagem: "https://i.pinimg.com/1200x/93/5d/ea/935dea8cb7a8e807fed285ab962c88cf.jpg",
     raridade: "Comum",
     repetido: false
   },
   {
     nome: "Cometa Rubro",
-    imagem: "https://placehold.co/300x200",
+    imagem: "https://i.pinimg.com/736x/f9/cf/c3/f9cfc338d7ce5e0ac19d2a3d0daaa517.jpg",
     raridade: "Raro",
     repetido: false
   },
   {
     nome: "Espírito da Realeza",
-    imagem: "https://placehold.co/300x200",
+    imagem: "https://i.pinimg.com/736x/18/e6/4f/18e64f70ca07794cdc70f7fbe7587145.jpg",
     raridade: "Raro",
     repetido: false
   },
   {
     nome: "Feixe Estelar",
-    imagem: "https://placehold.co/300x200",
+    imagem: "https://i.pinimg.com/736x/a7/d7/d9/a7d7d990b1ed177f9d416e36336141ec.jpg",
     raridade: "Lendária",
     repetido: false
   },
   {
     nome: "Katana do Oriente",
-    imagem: "https://placehold.co/300x200",
+    imagem: "https://i.pinimg.com/736x/15/cc/82/15cc82e1bf581a8abf42cd530dffcea0.jpg",
     raridade: "Lendária",
     repetido: false
   },
