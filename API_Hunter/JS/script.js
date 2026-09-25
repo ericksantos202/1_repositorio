@@ -6,92 +6,155 @@ const botaoBuscar = document.getElementById("btnBuscar");
 const filtroGenero = document.getElementById("filtroGenero");
 
 //evento para quando botão é clicado//
-botaoBuscar.addEventListener("click", function() {
+botaoBuscar.addEventListener("click", function () {
+  const texto = campoBusca.value;
+  console.log(texto);
+  const areaJogos = document.getElementById("jogos");
+  const generoSelecionado = filtroGenero.value;
+  console.log("Gênero:", generoSelecionado);
 
-    const texto = campoBusca.value;
-    console.log(texto)
-    const areaJogos = document.getElementById("jogos");
-    const generoSelecionado = filtroGenero.value;
-    console.log("Gênero:", generoSelecionado);
-    
-    let encontrou = false;
-    
-    areaJogos.innerHTML = "";
-    for (let i = 0; i < dadosJogos.length; i++) {
+  let encontrou = false;
 
-        console.log(dadosJogos[i].title.toLowerCase().includes(texto.toLowerCase()));
+  areaJogos.innerHTML = "";
+  for (let i = 0; i < dadosJogos.length; i++) {
+    console.log(
+      dadosJogos[i].title.toLowerCase().includes(texto.toLowerCase()),
+    );
 
-        if (
-            dadosJogos[i].title.toLowerCase().includes(texto.toLowerCase()) &&
-            (generoSelecionado === "" || dadosJogos[i].genre.trim() === generoSelecionado)
-        ) {
-            
-            encontrou = true;
-            
-            areaJogos.innerHTML += `
+    if (
+      dadosJogos[i].title.toLowerCase().includes(texto.toLowerCase()) &&
+      (generoSelecionado === "" ||
+        dadosJogos[i].genre.trim() === generoSelecionado)
+    ) {
+      encontrou = true;
+
+      areaJogos.innerHTML += `
                 <div>
                     <h2>${dadosJogos[i].title}</h2>
                     <p>${dadosJogos[i].genre}</p>
                     <img src="${dadosJogos[i].thumbnail}">
+                    <button onclick="baixarJogo(${dadosJogos[i].id})">Download</button>
                 </div>
             `;
-        }
     }
-    if (encontrou === false) {
-        areaJogos.innerHTML = "<p>Nenhum jogo encontrado.</p>";
-    }
+  }
+  if (encontrou === false) {
+    areaJogos.innerHTML = "<p>Nenhum jogo encontrado.</p>";
+  }
 
-    console.log(dadosJogos);
+  console.log(dadosJogos);
 });
-
 
 //função assincrona - busca na API//
 async function buscarJogos() {
+  const areaJogos = document.getElementById("jogos");
 
-    const areaJogos = document.getElementById("jogos");
+  areaJogos.innerHTML = "<p>Carregando jogos...</p>";
 
-    areaJogos.innerHTML = "<p>Carregando jogos...</p>";
+  try {
+    const resposta = await fetch("https://www.freetogame.com/api/games");
 
-    try {
+    dadosJogos = await resposta.json();
 
-        const resposta = await fetch("https://www.freetogame.com/api/games");
-
-        dadosJogos = await resposta.json();
-
-        const generos = [...new Set(dadosJogos.map(jogo => jogo.genre.trim()))];
-        for (let i = 0; i < generos.length; i++) {
-
-            filtroGenero.innerHTML += `
+    const generos = [...new Set(dadosJogos.map((jogo) => jogo.genre.trim()))];
+    for (let i = 0; i < generos.length; i++) {
+      filtroGenero.innerHTML += `
                 <option value="${generos[i]}">
                     ${generos[i]}
                 </option>
             `;
+    }
 
-        }
+    console.log(dadosJogos);
 
-        console.log(dadosJogos);
+    areaJogos.innerHTML = "";
 
-        areaJogos.innerHTML = "";
-
-        for (let i = 0; i < dadosJogos.length; i++) {
-
-            
-                areaJogos.innerHTML += `
+    for (let i = 0; i < dadosJogos.length; i++) {
+      areaJogos.innerHTML += `
                     <div>
                         <h2>${dadosJogos[i].title}</h2>
                         <p>${dadosJogos[i].genre}</p>
                         <img src="${dadosJogos[i].thumbnail}">
+                        <button onclick="baixarJogo(${dadosJogos[i].id})">Download</button>
                     </div>
                 `;
-            
     }
+  } catch (erro) {
+    areaJogos.innerHTML = "<p>Não foi possível carregar os jogos.</p>";
 
-    } catch (erro) {
-
-        areaJogos.innerHTML = "<p>Não foi possível carregar os jogos.</p>";
-
-        console.log(erro);
-    }
+    console.log(erro);
+  }
 }
 
 buscarJogos();
+
+//FUNÇÃO BAIXAR O GAME DOWNLOAD//
+
+function baixarJogo(id) {
+  const jogo = dadosJogos.find((jogo) => jogo.id === id);
+  let jogosInstalados =
+    JSON.parse(localStorage.getItem("jogosInstalados")) || [];
+
+  const jaInstalado = jogosInstalados.some(
+    (jogoInstalado) => jogoInstalado.id === jogo.id,
+  );
+
+  console.log("Jogo selecionado:", jogo);
+
+  const areaDownloads = document.getElementById("downloads");
+
+  areaDownloads.style.display = "block";
+
+  areaDownloads.innerHTML = `
+        <div>
+            <p>Baixando ${jogo.title}...</p>
+        </div>
+    `;
+  //INTERVALO PARA DOWNLOAD MANDAR NA BIBLIOTECA//
+  let progresso = 0;
+
+  const intervalo = setInterval(function () {
+    progresso += 20;
+
+    areaDownloads.innerHTML = `
+            <div>
+                <p>Baixando ${jogo.title}...</p>
+                <p>${progresso}%</p>
+            </div>
+        `;
+    if (progresso >= 100) {
+      clearInterval(intervalo);
+    }
+
+    if (progresso >= 100) {
+      clearInterval(intervalo);
+
+      let jogosInstalados =
+        JSON.parse(localStorage.getItem("jogosInstalados")) || [];
+
+      const jaInstalado = jogosInstalados.some(
+        (jogoInstalado) => jogoInstalado.id === jogo.id,
+      );
+
+      if (!jaInstalado) {
+        jogosInstalados.push(jogo);
+
+        localStorage.setItem(
+          "jogosInstalados",
+          JSON.stringify(jogosInstalados),
+        );
+      }
+
+      areaDownloads.innerHTML = `
+        <div>
+            <p>Instalação concluída!</p>
+            <p>${jogo.title} foi instalado.</p>
+        </div>
+    `;
+      //DELAY DA NOTIFICAÇÃO//
+      setTimeout(function () {
+        areaDownloads.style.display = "none";
+      }, 3000);
+    }
+  }, 500);
+}
