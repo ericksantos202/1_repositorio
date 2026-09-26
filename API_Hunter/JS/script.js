@@ -1,21 +1,24 @@
-let dadosJogos = []; //variavel disponivel para o arquivo inteiro.
+let dadosJogos = []; // variável disponível para o arquivo inteiro.
 
-//aba de pesquisa e botões//
+// aba de pesquisa e botões
 const campoBusca = document.getElementById("busca");
 const botaoBuscar = document.getElementById("btnBuscar");
 const filtroGenero = document.getElementById("filtroGenero");
 
-//evento para quando botão é clicado//
+// evento para quando o botão é clicado
 botaoBuscar.addEventListener("click", function () {
   const texto = campoBusca.value;
   console.log(texto);
+
   const areaJogos = document.getElementById("jogos");
   const generoSelecionado = filtroGenero.value;
+
   console.log("Gênero:", generoSelecionado);
 
   let encontrou = false;
 
   areaJogos.innerHTML = "";
+
   for (let i = 0; i < dadosJogos.length; i++) {
     console.log(
       dadosJogos[i].title.toLowerCase().includes(texto.toLowerCase()),
@@ -29,15 +32,22 @@ botaoBuscar.addEventListener("click", function () {
       encontrou = true;
 
       areaJogos.innerHTML += `
-                <div>
-                    <h2>${dadosJogos[i].title}</h2>
-                    <p>${dadosJogos[i].genre}</p>
-                    <img src="${dadosJogos[i].thumbnail}">
-                    <button onclick="baixarJogo(${dadosJogos[i].id})">Download</button>
-                </div>
-            `;
+        <div>
+          <h2>${dadosJogos[i].title}</h2>
+          <p>${dadosJogos[i].genre}</p>
+          <img src="${dadosJogos[i].thumbnail}">
+          <button
+            id="btn-download-${dadosJogos[i].id}"
+            onclick="baixarJogo(${dadosJogos[i].id})"
+            ${jogoEstaInstalado(dadosJogos[i].id) ? "disabled" : ""}
+          >
+            ${jogoEstaInstalado(dadosJogos[i].id) ? "Instalado" : "Download"}
+          </button>
+        </div>
+      `;
     }
   }
+
   if (encontrou === false) {
     areaJogos.innerHTML = "<p>Nenhum jogo encontrado.</p>";
   }
@@ -45,7 +55,7 @@ botaoBuscar.addEventListener("click", function () {
   console.log(dadosJogos);
 });
 
-//função assincrona - busca na API//
+// função assíncrona - busca na API
 async function buscarJogos() {
   const areaJogos = document.getElementById("jogos");
 
@@ -57,12 +67,13 @@ async function buscarJogos() {
     dadosJogos = await resposta.json();
 
     const generos = [...new Set(dadosJogos.map((jogo) => jogo.genre.trim()))];
+
     for (let i = 0; i < generos.length; i++) {
       filtroGenero.innerHTML += `
-                <option value="${generos[i]}">
-                    ${generos[i]}
-                </option>
-            `;
+        <option value="${generos[i]}">
+          ${generos[i]}
+        </option>
+      `;
     }
 
     console.log(dadosJogos);
@@ -71,13 +82,19 @@ async function buscarJogos() {
 
     for (let i = 0; i < dadosJogos.length; i++) {
       areaJogos.innerHTML += `
-                    <div>
-                        <h2>${dadosJogos[i].title}</h2>
-                        <p>${dadosJogos[i].genre}</p>
-                        <img src="${dadosJogos[i].thumbnail}">
-                        <button onclick="baixarJogo(${dadosJogos[i].id})">Download</button>
-                    </div>
-                `;
+        <div>
+          <h2>${dadosJogos[i].title}</h2>
+          <p>${dadosJogos[i].genre}</p>
+          <img src="${dadosJogos[i].thumbnail}">
+          <button
+            id="btn-download-${dadosJogos[i].id}"
+            onclick="baixarJogo(${dadosJogos[i].id})"
+            ${jogoEstaInstalado(dadosJogos[i].id) ? "disabled" : ""}
+          >
+            ${jogoEstaInstalado(dadosJogos[i].id) ? "Instalado" : "Download"}
+          </button>
+        </div>
+      `;
     }
   } catch (erro) {
     areaJogos.innerHTML = "<p>Não foi possível carregar os jogos.</p>";
@@ -88,10 +105,22 @@ async function buscarJogos() {
 
 buscarJogos();
 
-//FUNÇÃO BAIXAR O GAME DOWNLOAD//
+// função que verifica se o jogo está instalado
+function jogoEstaInstalado(id) {
+  const jogosInstalados =
+    JSON.parse(localStorage.getItem("jogosInstalados")) || [];
 
+  return jogosInstalados.some((jogo) => jogo.id === id);
+}
+
+// função baixar o game
 function baixarJogo(id) {
+  if (jogoEstaInstalado(id)) {
+    return;
+  }
+
   const jogo = dadosJogos.find((jogo) => jogo.id === id);
+
   let jogosInstalados =
     JSON.parse(localStorage.getItem("jogosInstalados")) || [];
 
@@ -106,22 +135,24 @@ function baixarJogo(id) {
   areaDownloads.style.display = "block";
 
   areaDownloads.innerHTML = `
-        <div>
-            <p>Baixando ${jogo.title}...</p>
-        </div>
-    `;
-  //INTERVALO PARA DOWNLOAD MANDAR NA BIBLIOTECA//
+    <div>
+      <p>Baixando ${jogo.title}...</p>
+    </div>
+  `;
+
+  // intervalo para download mandar na biblioteca
   let progresso = 0;
 
   const intervalo = setInterval(function () {
     progresso += 20;
 
     areaDownloads.innerHTML = `
-            <div>
-                <p>Baixando ${jogo.title}...</p>
-                <p>${progresso}%</p>
-            </div>
-        `;
+      <div>
+        <p>Baixando ${jogo.title}...</p>
+        <p>${progresso}%</p>
+      </div>
+    `;
+
     if (progresso >= 100) {
       clearInterval(intervalo);
     }
@@ -145,13 +176,21 @@ function baixarJogo(id) {
         );
       }
 
+      const botao = document.getElementById(`btn-download-${jogo.id}`);
+
+      if (botao) {
+        botao.textContent = "Instalado";
+        botao.disabled = true;
+      }
+
       areaDownloads.innerHTML = `
         <div>
-            <p>Instalação concluída!</p>
-            <p>${jogo.title} foi instalado.</p>
+          <p>Instalação concluída!</p>
+          <p>${jogo.title} foi instalado.</p>
         </div>
-    `;
-      //DELAY DA NOTIFICAÇÃO//
+      `;
+
+      // delay da notificação
       setTimeout(function () {
         areaDownloads.style.display = "none";
       }, 3000);
