@@ -9,7 +9,7 @@
 }
 
 body {
-  font-family: Arial, sans-serif;
+  font-family: "Rajdhani", sans-serif;
   background-color: #0f172a;
   color: #1f252b;
   min-height: 100vh;
@@ -126,8 +126,9 @@ header a {
 
 #jogos > div,
 #biblioteca > div {
-  background-color: #dde5ea;
-  border: 1px solid #dce2e7;
+  font-family: "Rajdhani", sans-serif;
+  background-color: #7da9c3;
+  border: 1px solid #ffcc00;
   border-radius: 10px;
 
   min-height: 380px;
@@ -212,14 +213,17 @@ button:hover {
 ========================= */
 
 #downloads {
+  font-family: "Inter", sans-serif;
+
   position: fixed;
   right: 20px;
   top: 20px;
 
   width: 280px;
 
-  background-color: white;
-  border: 1px solid #dce2e7;
+  background-color: #516f81;
+  color: #ffffff;
+  border: 1px solid #ffd501;
   border-radius: 8px;
 
   padding: 15px;
